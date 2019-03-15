@@ -5,10 +5,12 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
+import numpy as np
+
 def get_foot(pt, line_begin, line_end):
     dx = line_begin.x() - line_end.x()
     dy = line_begin.y() - line_end.y()
-    if dx == 0 or dy == 0:
+    if dx == 0 and dy == 0:
         return QtCore.QPointF(0, 0)
     u = (pt.x() - line_begin.x()) * (line_begin.x() - line_end.x()) + (pt.y() - line_begin.y()) * (line_begin.y() - line_end.y())
     u = u / (dx * dx + dy * dy)
