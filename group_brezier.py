@@ -5,6 +5,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from brezier import BrezierCurve
+from line import Line
 from kpt import Keypoint
 
 def single_pt(landmark137, index, parent):
@@ -39,7 +40,7 @@ def brezier_c(landmark137, index, parent):
     pen = QtGui.QPen(QtCore.Qt.cyan)
     pen.setWidthF(0.2)
 
-    pt = Keypoint(index, landmark137[index], -1, -1, 2, 2, parent)
+    pt = Keypoint(None, landmark137[index], -1, -1, 2, 2, parent)
     pt.setPos(landmark137[index, 0], landmark137[index, 1])
     pt.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable)
     pt.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable)
@@ -73,7 +74,9 @@ class MouthGroupBrezier(QtCore.QObject):
         self.brezier_3 = BrezierCurve(self.p41, self.c40, self.c37, self.p36, 5, parent)
         self.brezier_4 = BrezierCurve(self.p36, self.c35, self.c30, self.p29, 7, parent)
 
-        self.mouse_top_middle = single_pt(landmark137, 42, parent)
+        self.p42 = single_pt(landmark137, 42, parent)
+        self.line_1 = Line(self.p43, self.p42, 1, parent)
+        self.line_2 = Line(self.p41, self.p42, 1, parent)
 
         self.p48 = brezier_p(landmark137, 48, parent)
         self.p60 = brezier_p(landmark137, 60, parent)
@@ -93,7 +96,7 @@ class MouthGroupBrezier(QtCore.QObject):
         self.brezier_8 = BrezierCurve(self.p52, self.c51, self.c49, self.p48, 4, parent)
 
 class NoseGroupBrezier(QtCore.QObject):
-    def __init__(self, landmark137, parent, *args, **kwargs):
+    def __init__(self, landmark137, parent, p88, p105, *args, **kwargs):
         super(NoseGroupBrezier, self).__init__(*args, **kwargs)
 
         self.parent = parent
@@ -108,11 +111,15 @@ class NoseGroupBrezier(QtCore.QObject):
         self.c75 = brezier_c(landmark137, 75, parent)
         self.p86 = brezier_p(landmark137, 86, parent)
         self.p83 = brezier_p(landmark137, 83, parent)
-        self.c85 = brezier_c(landmark137, 85, parent)
-        self.c84 = brezier_c(landmark137, 84, parent)
+        self.p64.setAlongPath(p88, p105)
+        self.p78.setAlongPath(p88, p105)
+
+        # self.c85 = brezier_c(landmark137, 85, parent)
+        # self.c84 = brezier_c(landmark137, 84, parent)
         self.brezier_1 = BrezierCurve(self.p64, self.c65, self.c67, self.p68, 4, parent)
         self.brezier_2 = BrezierCurve(self.p78, self.c77, self.c75, self.p74, 4, parent)
-        self.brezier_3 = BrezierCurve(self.p86, self.c85, self.c84, self.p83, 3, parent)
+        self.line_1 = Line(self.p86, self.p83, 3, parent)
+        # self.brezier_3 = BrezierCurve(self.p86, self.c85, self.c84, self.p83, 3, parent)
 
         self.nose_pts = []
         for pt_index in [82, 81, 80, 79, 69, 70, 71, 72, 73]:
@@ -221,15 +228,23 @@ class FaceGroupBrezier(QtCore.QObject):
         self.brezier_5 = BrezierCurve(self.p14, self.c13, self.c12, self.p11, 3, parent)
         self.brezier_6 = BrezierCurve(self.p8, self.c9, self.c10, self.p11, 3, parent)
 
+    def getLabel(self):
+        return self.brezier_2.getKeypoints()
+
 class FaceFinal(object):
     def __init__(self, landmark137, parent):
         self.aaa = MouthGroupBrezier(landmark137, parent)
-        self.bbb = NoseGroupBrezier(landmark137, parent)
+
         self.ccc = LeftEyeGroupBrezier(landmark137, parent)
         self.ddd = RightEyeGroupBrezier(landmark137, parent)
+
+        self.help1 = Line(self.ccc.p88, self.ddd.p105, 0, parent)
+        self.bbb = NoseGroupBrezier(landmark137, parent, self.ccc.p88, self.ddd.p105)
+
         self.eee = LeftEyeBrownGroupBrezier(landmark137, parent)
         self.fff = RightEyeBrownGroupBrezier(landmark137, parent)
+
         self.ggg = FaceGroupBrezier(landmark137, parent)
 
     def getLabel(self):
-        pass
+        return self.ggg.getLabel()

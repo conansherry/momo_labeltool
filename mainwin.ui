@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1035</width>
-    <height>777</height>
+    <width>1037</width>
+    <height>784</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,10 +29,17 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1035</width>
+     <width>1037</width>
      <height>18</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="actionload"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget_2">
@@ -63,6 +70,11 @@
     </layout>
    </widget>
   </widget>
+  <action name="actionload">
+   <property name="text">
+    <string>载入文件夹</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

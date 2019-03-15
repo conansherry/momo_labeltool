@@ -13,9 +13,14 @@ import os
 class FileList(QtWidgets.QListWidget):
     def __init__(self, *args, **kwargs):
         super(FileList, self).__init__(*args, **kwargs)
+
+    def loadDir(self):
+        print('loadDir')
+        self.clear()
+        dir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open a folder', './')
         pattern = re.compile(r'((.*[jJ][pP][gG]$)|(.*[pP][nN][gG]$))')
         self.all_data_dict = dict()
-        for dirpath, dirnames, filenames in os.walk(r'E:\new_kpt_data\trainData\newData'):
+        for dirpath, dirnames, filenames in os.walk(dir):
             for filename in filenames:
                 match = pattern.match(filename)
                 if match:
@@ -24,4 +29,3 @@ class FileList(QtWidgets.QListWidget):
                     if os.path.exists(img_file) and os.path.exists(label_file):
                         self.all_data_dict[img_file] = label_file
                         self.addItem(img_file)
-        print('FileList')

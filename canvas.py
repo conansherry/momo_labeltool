@@ -57,14 +57,17 @@ class Canvas(QtWidgets.QGraphicsView):
                                 current_doing.append(child)
                 if len(current_doing) > 0:
                     self.change_history.append(current_doing)
-                    # save npy
-                    face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
-                    np.save(face_label_path, self.label)
+                # save npy
+                face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
+                np.save(face_label_path, self.label)
+                self.item.update()
         elif event.button() == QtCore.Qt.RightButton:
             print('release right button')
 
     def mouseMoveEvent(self, event):
         super(Canvas, self).mouseMoveEvent(event)
+        if self.item is not None:
+            self.item.update()
         # child_has_selected_and_move = False
         # if self.item is not None and self.mouse_left_press:
         #     for child in self.item.childItems():
@@ -110,6 +113,13 @@ class Canvas(QtWidgets.QGraphicsView):
                             current_doing.append(child)
                 if len(current_doing) > 0:
                     self.change_history.append(current_doing)
+        elif event.key() == QtCore.Qt.Key_S:
+            if self.item is not None:
+                for child in self.item.childItems():
+                    if isinstance(child, Keypoint):
+                        child.showName(not child.show_name)
+                    # child.update()
+                self.item.update()
 
     def keyReleaseEvent(self, event):
         if event.key() == QtCore.Qt.Key_Shift:
@@ -135,8 +145,8 @@ class Canvas(QtWidgets.QGraphicsView):
         else:
             super(Canvas, self).wheelEvent(event)
 
-    @pyqtSlot(QtWidgets.QListWidgetItem, name='openItem')
-    def openItem(self, item):
+    @pyqtSlot(QtWidgets.QListWidgetItem, QtWidgets.QListWidgetItem, name='openItem')
+    def openItem(self, item, item_previous):
         self.img_path = item.text()
         label_path = os.path.splitext(self.img_path)[0] + '_extract_137.pt'
         face_label_path = os.path.splitext(self.img_path)[0] + '.npy'

@@ -11,7 +11,8 @@ if __name__ == '__main__':
     ui = mainwin.Ui_main_window()
     ui.setupUi(MainWindow)
 
-    ui.file_list.itemClicked.connect(ui.canvas.openItem)
+    ui.file_list.currentItemChanged.connect(ui.canvas.openItem)
+    ui.actionload.triggered.connect(ui.file_list.loadDir)
 
     MainWindow.show()
     sys.exit(app.exec_())
