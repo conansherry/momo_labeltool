@@ -67,7 +67,6 @@ class Canvas(QtWidgets.QGraphicsView):
 
     def keyPressEvent(self, event):
         super(Canvas, self).keyPressEvent(event)
-        key = event.key()
         if event.key() == (QtCore.Qt.Key_Control and QtCore.Qt.Key_Z):
             if len(self.change_history) > 0:
                 last_changed_item = self.change_history.pop()
@@ -92,6 +91,16 @@ class Canvas(QtWidgets.QGraphicsView):
                 if len(current_doing) > 0:
                     self.change_history.append(current_doing)
                     self.save()
+        elif event.key() == QtCore.Qt.Key_L:
+            if self.item is not None:
+                tmp_img = cv2.imread(self.img_path)
+                tmp_label = self.face_label.getLabel_137().astype(np.int32)
+                for ix, pt in enumerate(tmp_label):
+                    cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
+                    cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 2)
+                cv2.imshow('tmp_img', tmp_img)
+                cv2.waitKey()
+                cv2.destroyAllWindows()
 
     def keyReleaseEvent(self, event):
         super(Canvas, self).keyReleaseEvent(event)

@@ -74,9 +74,11 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
         print(self.name, self.history_pos)
 
     def paint(self, painter, option, widget=None):
-        keypoint_scale = 3 / self.parentItem().scale_flag
+        keypoint_scale = 4 / self.parentItem().scale_flag
         if keypoint_scale < 0.5:
             keypoint_scale = 0.5
+        elif keypoint_scale > 2:
+            keypoint_scale = 2
         self.setScale(keypoint_scale)
         super(Keypoint, self).paint(painter, option, widget=widget)
 
@@ -84,7 +86,7 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
             pen = QtGui.QPen(QtGui.QColor(253, 67, 23))
             pen.setWidthF(0.2)
             painter.setPen(pen)
-            painter.setFont(QtGui.QFont('times', 3))
+            painter.setFont(QtGui.QFont('times', 5))
             painter.drawText(0, 0, str(self.name))
 
         if self.begin is not None and self.end is not None:
