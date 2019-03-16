@@ -30,7 +30,7 @@ class Line(QtWidgets.QGraphicsPathItem):
         self.setPath(self.path)
         self.setPath(self.path)
         pen = QtGui.QPen(QtGui.QColor(0, 255, 0))
-        pen.setWidthF(0.5)
+        pen.setWidthF(3 / self.parentItem().scale_flag)
         pen.setDashPattern([1, 2])
         self.setPen(pen)
         super(Line, self).paint(painter, option, widget=widget)

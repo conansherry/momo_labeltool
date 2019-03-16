@@ -31,7 +31,7 @@ class BrezierCurve(QtWidgets.QGraphicsPathItem):
         self.path.cubicTo(self.c1.pos(), self.c2.pos(), self.p2.pos())
         self.setPath(self.path)
         pen = QtGui.QPen(QtGui.QColor(0, 255, 0))
-        pen.setWidthF(0.5)
+        pen.setWidthF(3 / self.parentItem().scale_flag)
         pen.setDashPattern([1, 2])
         self.setPen(pen)
         super(BrezierCurve, self).paint(painter, option, widget=widget)

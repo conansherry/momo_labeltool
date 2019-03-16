@@ -50,11 +50,30 @@ def brezier_c(landmark137, index, parent):
 
     return pt
 
-class MouthGroupBrezier(QtCore.QObject):
-    def __init__(self, landmark137, parent, *args, **kwargs):
-        super(MouthGroupBrezier, self).__init__(*args, **kwargs)
+class GroupObject(QtCore.QObject):
+    def __init__(self, *args, **kwargs):
+        super(GroupObject, self).__init__(*args, **kwargs)
 
-        self.parent = parent
+    def show(self, flag):
+        for k, v in vars(self).items():
+            if isinstance(v, QtWidgets.QGraphicsItem):
+                v.setVisible(flag)
+
+    def showControl(self, flag):
+        for k, v in vars(self).items():
+            if isinstance(v, Keypoint):
+                if v.name is None:
+                    v.setVisible(flag)
+
+    def showKeypoint(self, flag):
+        for k, v in vars(self).items():
+            if isinstance(v, Keypoint):
+                if v.name is not None:
+                    v.setVisible(flag)
+
+class MouthOutterGroupBrezier(GroupObject):
+    def __init__(self, landmark137, parent, *args, **kwargs):
+        super(MouthOutterGroupBrezier, self).__init__(*args, **kwargs)
 
         self.p22 = brezier_p(landmark137, 22, parent)
         self.p29 = brezier_p(landmark137, 29, parent)
@@ -78,6 +97,10 @@ class MouthGroupBrezier(QtCore.QObject):
         self.line_1 = Line(self.p43, self.p42, 1, parent)
         self.line_2 = Line(self.p41, self.p42, 1, parent)
 
+class MouthInnerGroupBrezier(GroupObject):
+    def __init__(self, landmark137, parent, *args, **kwargs):
+        super(MouthInnerGroupBrezier, self).__init__(*args, **kwargs)
+
         self.p48 = brezier_p(landmark137, 48, parent)
         self.p60 = brezier_p(landmark137, 60, parent)
         self.c63 = brezier_c(landmark137, 63, parent)
@@ -95,11 +118,9 @@ class MouthGroupBrezier(QtCore.QObject):
         self.brezier_7 = BrezierCurve(self.p56, self.c55, self.c53, self.p52, 4, parent)
         self.brezier_8 = BrezierCurve(self.p52, self.c51, self.c49, self.p48, 4, parent)
 
-class NoseGroupBrezier(QtCore.QObject):
+class NoseGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, p88, p105, *args, **kwargs):
         super(NoseGroupBrezier, self).__init__(*args, **kwargs)
-
-        self.parent = parent
 
         self.p64 = brezier_p(landmark137, 64, parent)
         self.p68 = brezier_p(landmark137, 68, parent)
@@ -121,15 +142,12 @@ class NoseGroupBrezier(QtCore.QObject):
         self.line_1 = Line(self.p86, self.p83, 3, parent)
         # self.brezier_3 = BrezierCurve(self.p86, self.c85, self.c84, self.p83, 3, parent)
 
-        self.nose_pts = []
         for pt_index in [82, 81, 80, 79, 69, 70, 71, 72, 73]:
-            self.nose_pts.append(single_pt(landmark137, pt_index, parent))
+            setattr(self, 'p{}'.format(pt_index), single_pt(landmark137, pt_index, parent))
 
-class LeftEyeGroupBrezier(QtCore.QObject):
+class LeftEyeGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(LeftEyeGroupBrezier, self).__init__(*args, **kwargs)
-
-        self.parent = parent
 
         self.p96 = brezier_p(landmark137, 96, parent)
         self.p88 = brezier_p(landmark137, 88, parent)
@@ -142,11 +160,9 @@ class LeftEyeGroupBrezier(QtCore.QObject):
 
         self.left_eye_middle = single_pt(landmark137, 87, parent)
 
-class RightEyeGroupBrezier(QtCore.QObject):
+class RightEyeGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(RightEyeGroupBrezier, self).__init__(*args, **kwargs)
-
-        self.parent = parent
 
         self.p105 = brezier_p(landmark137, 105, parent)
         self.p113 = brezier_p(landmark137, 113, parent)
@@ -159,11 +175,9 @@ class RightEyeGroupBrezier(QtCore.QObject):
 
         self.right_eye_middle = single_pt(landmark137, 104, parent)
 
-class LeftEyeBrownGroupBrezier(QtCore.QObject):
+class LeftEyeBrownGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(LeftEyeBrownGroupBrezier, self).__init__(*args, **kwargs)
-
-        self.parent = parent
 
         self.p129 = brezier_p(landmark137, 129, parent)
         self.p133 = brezier_p(landmark137, 133, parent)
@@ -178,11 +192,9 @@ class LeftEyeBrownGroupBrezier(QtCore.QObject):
         self.brezier_3 = BrezierCurve(self.p129, self.c136, self.c136, self.p135, 2, parent)
         self.brezier_4 = BrezierCurve(self.p135, self.c134, self.c134, self.p133, 2, parent)
 
-class RightEyeBrownGroupBrezier(QtCore.QObject):
+class RightEyeBrownGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(RightEyeBrownGroupBrezier, self).__init__(*args, **kwargs)
-
-        self.parent = parent
 
         self.p121 = brezier_p(landmark137, 121, parent)
         self.p125 = brezier_p(landmark137, 125, parent)
@@ -197,11 +209,9 @@ class RightEyeBrownGroupBrezier(QtCore.QObject):
         self.brezier_3 = BrezierCurve(self.p121, self.c128, self.c128, self.p127, 2, parent)
         self.brezier_4 = BrezierCurve(self.p127, self.c126, self.c126, self.p125, 2, parent)
 
-class FaceGroupBrezier(QtCore.QObject):
+class FaceGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(FaceGroupBrezier, self).__init__(*args, **kwargs)
-
-        self.parent = parent
 
         self.p0 = brezier_p(landmark137, 0, parent)
         self.p18 = brezier_p(landmark137, 18, parent)
@@ -233,7 +243,8 @@ class FaceGroupBrezier(QtCore.QObject):
 
 class FaceFinal(object):
     def __init__(self, landmark137, parent):
-        self.aaa = MouthGroupBrezier(landmark137, parent)
+        self.aaa_1 = MouthOutterGroupBrezier(landmark137, parent)
+        self.aaa_2 = MouthInnerGroupBrezier(landmark137, parent)
 
         self.ccc = LeftEyeGroupBrezier(landmark137, parent)
         self.ddd = RightEyeGroupBrezier(landmark137, parent)
@@ -245,6 +256,50 @@ class FaceFinal(object):
         self.fff = RightEyeBrownGroupBrezier(landmark137, parent)
 
         self.ggg = FaceGroupBrezier(landmark137, parent)
+
+    def showControl(self, flag):
+        self.aaa_1.showControl(flag)
+        self.aaa_2.showControl(flag)
+        self.bbb.showControl(flag)
+        self.ccc.showControl(flag)
+        self.ddd.showControl(flag)
+        self.eee.showControl(flag)
+        self.fff.showControl(flag)
+        self.ggg.showControl(flag)
+
+    def showKeypoint(self, flag):
+        self.aaa_1.showKeypoint(flag)
+        self.aaa_2.showKeypoint(flag)
+        self.bbb.showKeypoint(flag)
+        self.ccc.showKeypoint(flag)
+        self.ddd.showKeypoint(flag)
+        self.eee.showKeypoint(flag)
+        self.fff.showKeypoint(flag)
+        self.ggg.showKeypoint(flag)
+
+    def showContour(self, flag):
+        self.ggg.show(flag)
+
+    def showLeftEyeBrown(self, flag):
+        self.eee.show(flag)
+
+    def showRightEyeBrown(self, flag):
+        self.fff.show(flag)
+
+    def showLeftEye(self, flag):
+        self.ccc.show(flag)
+
+    def showRightEye(self, flag):
+        self.ddd.show(flag)
+
+    def showNose(self, flag):
+        self.bbb.show(flag)
+
+    def showMouthOutter(self, flag):
+        self.aaa_1.show(flag)
+
+    def showMouthInner(self, flag):
+        self.aaa_2.show(flag)
 
     def getLabel(self):
         return self.ggg.getLabel()

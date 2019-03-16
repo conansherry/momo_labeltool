@@ -74,6 +74,10 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
         print(self.name, self.history_pos)
 
     def paint(self, painter, option, widget=None):
+        keypoint_scale = 5 / self.parentItem().scale_flag
+        if keypoint_scale < 1:
+            keypoint_scale = 1
+        self.setScale(keypoint_scale)
         super(Keypoint, self).paint(painter, option, widget=widget)
 
         if self.name is not None and self.show_name:

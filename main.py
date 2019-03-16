@@ -12,6 +12,19 @@ if __name__ == '__main__':
     ui.setupUi(MainWindow)
 
     ui.file_list.currentItemChanged.connect(ui.canvas.openItem)
+    ui.index.stateChanged.connect(ui.canvas.showName)
+    ui.fixitem.stateChanged.connect(ui.canvas.fixItem)
+    ui.control.stateChanged.connect(ui.canvas.showControl)
+    ui.keypoint.stateChanged.connect(ui.canvas.showKeypoint)
+    ui.contour.stateChanged.connect(ui.canvas.showContour)
+    ui.left_eyebrown.stateChanged.connect(ui.canvas.showLeftEyeBrown)
+    ui.right_eyebrown.stateChanged.connect(ui.canvas.showRightEyeBrown)
+    ui.left_eye.stateChanged.connect(ui.canvas.showLeftEye)
+    ui.right_eye.stateChanged.connect(ui.canvas.showRightEye)
+    ui.nose.stateChanged.connect(ui.canvas.showNose)
+    ui.mouth_outter.stateChanged.connect(ui.canvas.showMouthOutter)
+    ui.mouth_inner.stateChanged.connect(ui.canvas.showMouthInner)
+
     ui.actionload.triggered.connect(ui.file_list.loadDir)
 
     MainWindow.show()

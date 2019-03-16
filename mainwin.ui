@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1037</width>
-    <height>784</height>
+    <width>1035</width>
+    <height>777</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,173 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <widget class="Canvas" name="canvas">
       <property name="interactive">
        <bool>true</bool>
       </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QCheckBox" name="fixitem">
+         <property name="text">
+          <string>固定图片(F)</string>
+         </property>
+         <property name="shortcut">
+          <string>F</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="index">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>序号(S)</string>
+         </property>
+         <property name="shortcut">
+          <string>S</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="control">
+         <property name="text">
+          <string>控制点(Q)</string>
+         </property>
+         <property name="shortcut">
+          <string>Q</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="keypoint">
+         <property name="text">
+          <string>关键点(W)</string>
+         </property>
+         <property name="shortcut">
+          <string>W</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="contour">
+         <property name="text">
+          <string>脸轮廓(E)</string>
+         </property>
+         <property name="shortcut">
+          <string>E</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="left_eyebrown">
+         <property name="text">
+          <string>左眉毛(R)</string>
+         </property>
+         <property name="shortcut">
+          <string>R</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="right_eyebrown">
+         <property name="text">
+          <string>右眉毛(T)</string>
+         </property>
+         <property name="shortcut">
+          <string>T</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="left_eye">
+         <property name="text">
+          <string>左眼睛(Y)</string>
+         </property>
+         <property name="shortcut">
+          <string>Y</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="right_eye">
+         <property name="text">
+          <string>右眼睛(U)</string>
+         </property>
+         <property name="shortcut">
+          <string>U</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="nose">
+         <property name="text">
+          <string>鼻子(I)</string>
+         </property>
+         <property name="shortcut">
+          <string>I</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="mouth_outter">
+         <property name="text">
+          <string>嘴外轮廓(O)</string>
+         </property>
+         <property name="shortcut">
+          <string>O</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="mouth_inner">
+         <property name="text">
+          <string>嘴内轮廓(P)</string>
+         </property>
+         <property name="shortcut">
+          <string>P</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -29,7 +191,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1037</width>
+     <width>1035</width>
      <height>18</height>
     </rect>
    </property>

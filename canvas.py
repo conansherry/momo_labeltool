@@ -57,9 +57,7 @@ class Canvas(QtWidgets.QGraphicsView):
                                 current_doing.append(child)
                 if len(current_doing) > 0:
                     self.change_history.append(current_doing)
-                # save npy
-                face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
-                np.save(face_label_path, self.label)
+                self.save()
                 self.item.update()
         elif event.button() == QtCore.Qt.RightButton:
             print('release right button')
@@ -68,20 +66,6 @@ class Canvas(QtWidgets.QGraphicsView):
         super(Canvas, self).mouseMoveEvent(event)
         if self.item is not None:
             self.item.update()
-        # child_has_selected_and_move = False
-        # if self.item is not None and self.mouse_left_press:
-        #     for child in self.item.childItems():
-        #         if child.isSelected():
-        #             child_has_selected_and_move = True
-        #             break
-        # if child_has_selected_and_move:
-        #     # update line
-        #     for line in self.all_lines:
-        #         self.tmp_scene.removeItem(line)
-        #     self.updateLines()
-        # pos = event.pos()
-        # print('item scene pos', self.item.scenePos().x(), self.item.scenePos().y())
-        # print('x y', self.item.x(), self.item.y())
 
     def keyPressEvent(self, event):
         super(Canvas, self).keyPressEvent(event)
@@ -93,10 +77,7 @@ class Canvas(QtWidgets.QGraphicsView):
                 for child in last_changed_item:
                     if isinstance(child, Keypoint):
                         child.redoPos()
-        elif event.key() == QtCore.Qt.Key_Shift:
-            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, False)
-            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, False)
-            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable, False)
+                self.save()
         elif event.key() == QtCore.Qt.Key_A:
             if self.item is not None:
                 pos = QtCore.QPointF(0, 0)
@@ -113,19 +94,17 @@ class Canvas(QtWidgets.QGraphicsView):
                             current_doing.append(child)
                 if len(current_doing) > 0:
                     self.change_history.append(current_doing)
-        elif event.key() == QtCore.Qt.Key_S:
-            if self.item is not None:
-                for child in self.item.childItems():
-                    if isinstance(child, Keypoint):
-                        child.showName(not child.show_name)
-                    # child.update()
-                self.item.update()
+                    self.save()
+        # elif event.key() == QtCore.Qt.Key_S:
+        #     if self.item is not None:
+        #         for child in self.item.childItems():
+        #             if isinstance(child, Keypoint):
+        #                 child.showName(not child.show_name)
+        #             # child.update()
+        #         self.item.update()
 
     def keyReleaseEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Shift:
-            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable)
-            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable)
-            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable)
+        super(Canvas, self).keyReleaseEvent(event)
 
     def wheelEvent(self, event):
         if self.item is not None:
@@ -135,8 +114,10 @@ class Canvas(QtWidgets.QGraphicsView):
             if event.modifiers() == QtCore.Qt.AltModifier:
                 if delta.x() < 0:
                     M = cv2.getRotationMatrix2D((pos_at_item.x(), pos_at_item.y()), 0, 1/1.3)
+                    self.item.scale_flag *= 1 / 1.3
                 else:
                     M = cv2.getRotationMatrix2D((pos_at_item.x(), pos_at_item.y()), 0, 1.3)
+                    self.item.scale_flag *= 1.3
                 M = M.transpose()
                 qM = QtGui.QTransform(M[0, 0], M[0, 1], 0, M[1, 0], M[1, 1], 0, M[2, 0], M[2, 1], 1)
                 self.item.setTransform(qM, True)
@@ -156,9 +137,10 @@ class Canvas(QtWidgets.QGraphicsView):
             self.tmp_scene.removeItem(self.item)
         bg_pixel = QtGui.QPixmap(self.img_path)
         self.item = QtWidgets.QGraphicsPixmapItem(bg_pixel)
-        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable)
-        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable)
-        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable)
+        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, True)
+        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable, True)
+        self.item.scale_flag = 1.0
         self.tmp_scene.addItem(self.item)
         self.tmp_scene.setSceneRect(0, 0, bg_pixel.width(), bg_pixel.height())
 
@@ -167,3 +149,74 @@ class Canvas(QtWidgets.QGraphicsView):
         else:
             self.label = np.loadtxt(label_path, skiprows=1, delimiter=' ')
         self.face_label = FaceFinal(self.label, self.item)
+
+    @pyqtSlot(int, name='showName')
+    def showName(self, state):
+        if self.item is not None:
+            for child in self.item.childItems():
+                if isinstance(child, Keypoint):
+                    child.showName(bool(state))
+                # child.update()
+            self.item.update()
+
+    @pyqtSlot(int, name='fixItem')
+    def fixItem(self, state):
+        if self.item is not None:
+            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, not bool(state))
+            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, not bool(state))
+            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable, not bool(state))
+
+    @pyqtSlot(int, name='showControl')
+    def showControl(self, state):
+        if self.item is not None:
+            self.face_label.showControl(bool(state))
+
+    @pyqtSlot(int, name='showKeypoint')
+    def showKeypoint(self, state):
+        if self.item is not None:
+            self.face_label.showKeypoint(bool(state))
+
+    @pyqtSlot(int, name='showContour')
+    def showContour(self, state):
+        if self.item is not None:
+            self.face_label.showContour(bool(state))
+
+    @pyqtSlot(int, name='showLeftEyeBrown')
+    def showLeftEyeBrown(self, state):
+        if self.item is not None:
+            self.face_label.showLeftEyeBrown(bool(state))
+
+    @pyqtSlot(int, name='showRightEyeBrown')
+    def showRightEyeBrown(self, state):
+        if self.item is not None:
+            self.face_label.showRightEyeBrown(bool(state))
+
+    @pyqtSlot(int, name='showLeftEye')
+    def showLeftEye(self, state):
+        if self.item is not None:
+            self.face_label.showLeftEye(bool(state))
+
+    @pyqtSlot(int, name='showRightEye')
+    def showRightEye(self, state):
+        if self.item is not None:
+            self.face_label.showRightEye(bool(state))
+
+    @pyqtSlot(int, name='showNose')
+    def showNose(self, state):
+        if self.item is not None:
+            self.face_label.showNose(bool(state))
+
+    @pyqtSlot(int, name='showMouthOutter')
+    def showMouthOutter(self, state):
+        if self.item is not None:
+            self.face_label.showMouthOutter(bool(state))
+
+    @pyqtSlot(int, name='showMouthInner')
+    def showMouthInner(self, state):
+        if self.item is not None:
+            self.face_label.showMouthInner(bool(state))
+
+    def save(self):
+        print('save npy')
+        face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
+        np.save(face_label_path, self.label)
