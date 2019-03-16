@@ -34,8 +34,6 @@ class Canvas(QtWidgets.QGraphicsView):
         self.img_path = None
         self.label = None
 
-        print('Canvas')
-
     def mousePressEvent(self, event):
         super(Canvas, self).mousePressEvent(event)
         if event.button() == QtCore.Qt.LeftButton:
@@ -70,7 +68,6 @@ class Canvas(QtWidgets.QGraphicsView):
     def keyPressEvent(self, event):
         super(Canvas, self).keyPressEvent(event)
         key = event.key()
-        print(key)
         if event.key() == (QtCore.Qt.Key_Control and QtCore.Qt.Key_Z):
             if len(self.change_history) > 0:
                 last_changed_item = self.change_history.pop()
@@ -95,13 +92,6 @@ class Canvas(QtWidgets.QGraphicsView):
                 if len(current_doing) > 0:
                     self.change_history.append(current_doing)
                     self.save()
-        # elif event.key() == QtCore.Qt.Key_S:
-        #     if self.item is not None:
-        #         for child in self.item.childItems():
-        #             if isinstance(child, Keypoint):
-        #                 child.showName(not child.show_name)
-        #             # child.update()
-        #         self.item.update()
 
     def keyReleaseEvent(self, event):
         super(Canvas, self).keyReleaseEvent(event)
@@ -129,7 +119,7 @@ class Canvas(QtWidgets.QGraphicsView):
     @pyqtSlot(QtWidgets.QListWidgetItem, QtWidgets.QListWidgetItem, name='openItem')
     def openItem(self, item, item_previous):
         self.img_path = item.text()
-        label_path = os.path.splitext(self.img_path)[0] + '_extract_137.pt'
+        label_path = os.path.splitext(self.img_path)[0] + '.pt137'
         face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
 
         # open image

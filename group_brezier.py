@@ -12,7 +12,7 @@ def single_pt(landmark137, index, parent):
     pen = QtGui.QPen(QtCore.Qt.cyan)
     pen.setWidthF(0.2)
 
-    pt = Keypoint(index, landmark137[index], -1, -1, 2, 2, parent)
+    pt = Keypoint(index, landmark137[index], -2, -2, 4, 4, parent)
     pt.setPos(landmark137[index, 0], landmark137[index, 1])
     pt.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable)
     pt.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable)

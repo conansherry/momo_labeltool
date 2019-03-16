@@ -98,14 +98,3 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
         self.begin = begin
         self.end = end
 
-    # def mouseMoveEvent(self, event):
-    #     super(Keypoint, self).mouseMoveEvent(event)
-    #     if self.begin is not None and self.end is not None:
-    #         print(self.parentItem().mapFromScene(self.mapToScene(event.pos())), self.pos())
-    #         mouse_pos = self.parentItem().mapFromScene(self.mapToScene(event.pos()))
-    #         tmp_foot = get_foot(mouse_pos, self.begin.pos(), self.end.pos())
-    #         self.setPosNoHistory(tmp_foot)
-
-    # def itemChange(self, *args, **kwargs):
-    #     print(self.name, 'item change')
-    #     return super(Keypoint, self).itemChange(*args, **kwargs)

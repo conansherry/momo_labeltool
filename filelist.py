@@ -25,7 +25,7 @@ class FileList(QtWidgets.QListWidget):
                 match = pattern.match(filename)
                 if match:
                     img_file = os.path.join(dirpath, filename)
-                    label_file = os.path.join(dirpath, os.path.splitext(filename)[0] + '_extract_137.pt')
+                    label_file = os.path.join(dirpath, os.path.splitext(filename)[0] + '.pt137')
                     if os.path.exists(img_file) and os.path.exists(label_file):
                         self.all_data_dict[img_file] = label_file
                         self.addItem(img_file)
