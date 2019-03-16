@@ -7,7 +7,7 @@ from PyQt5.QtCore import pyqtSignal
 import numpy as np
 
 class Line(QtWidgets.QGraphicsPathItem):
-    def __init__(self, p1, p2, sampleN, *args, **kwargs):
+    def __init__(self, p1, p2, sampleN, isHelp, *args, **kwargs):
         super(Line, self).__init__(*args, **kwargs)
 
         self.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, False)
@@ -22,6 +22,7 @@ class Line(QtWidgets.QGraphicsPathItem):
         self.p1 = p1
         self.p2 = p2
         self.sampleN = sampleN
+        self.isHelp = isHelp
 
     def paint(self, painter, option, widget=None):
         self.path = QtGui.QPainterPath()
@@ -29,7 +30,10 @@ class Line(QtWidgets.QGraphicsPathItem):
         self.path.lineTo(self.p2.pos())
         self.setPath(self.path)
         self.setPath(self.path)
-        pen = QtGui.QPen(QtGui.QColor(0, 255, 0))
+        if self.isHelp:
+            pen = QtGui.QPen(QtGui.QColor(128, 128, 128))
+        else:
+            pen = QtGui.QPen(QtGui.QColor(0, 255, 0))
         pen.setWidthF(3 / self.parentItem().scale_flag)
         pen.setDashPattern([1, 2])
         self.setPen(pen)

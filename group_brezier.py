@@ -94,8 +94,8 @@ class MouthOutterGroupBrezier(GroupObject):
         self.brezier_4 = BrezierCurve(self.p36, self.c35, self.c30, self.p29, 7, parent)
 
         self.p42 = single_pt(landmark137, 42, parent)
-        self.line_1 = Line(self.p43, self.p42, 1, parent)
-        self.line_2 = Line(self.p41, self.p42, 1, parent)
+        self.line_1 = Line(self.p43, self.p42, 1, False, parent)
+        self.line_2 = Line(self.p41, self.p42, 1, False, parent)
 
 class MouthInnerGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
@@ -135,15 +135,25 @@ class NoseGroupBrezier(GroupObject):
         self.p64.setAlongPath(p88, p105)
         self.p78.setAlongPath(p88, p105)
 
-        # self.c85 = brezier_c(landmark137, 85, parent)
-        # self.c84 = brezier_c(landmark137, 84, parent)
         self.brezier_1 = BrezierCurve(self.p64, self.c65, self.c67, self.p68, 4, parent)
         self.brezier_2 = BrezierCurve(self.p78, self.c77, self.c75, self.p74, 4, parent)
-        self.line_1 = Line(self.p86, self.p83, 3, parent)
-        # self.brezier_3 = BrezierCurve(self.p86, self.c85, self.c84, self.p83, 3, parent)
 
         for pt_index in [82, 81, 80, 79, 69, 70, 71, 72, 73]:
             setattr(self, 'p{}'.format(pt_index), single_pt(landmark137, pt_index, parent))
+
+        self.line_1 = Line(self.p86, self.p83, 3, False, parent)
+
+        self.line_2 = Line(self.p82, self.p81, 0, False, parent)
+        self.line_3 = Line(self.p81, self.p80, 0, False, parent)
+        self.line_4 = Line(self.p80, self.p79, 0, False, parent)
+
+        self.line_5 = Line(self.p69, self.p70, 0, False, parent)
+        self.line_6 = Line(self.p70, self.p71, 0, False, parent)
+        self.line_7 = Line(self.p71, self.p72, 0, False, parent)
+        self.line_8 = Line(self.p72, self.p73, 0, False, parent)
+
+        self.help1 = Line(p88, p105, 0, True, parent)
+
 
 class LeftEyeGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
@@ -238,6 +248,9 @@ class FaceGroupBrezier(GroupObject):
         self.brezier_5 = BrezierCurve(self.p14, self.c13, self.c12, self.p11, 3, parent)
         self.brezier_6 = BrezierCurve(self.p8, self.c9, self.c10, self.p11, 3, parent)
 
+        self.help1 = Line(self.p14, self.p8, 0, True, parent)
+        self.help2 = Line(self.p18, self.p4, 0, True, parent)
+
     def getLabel(self):
         return self.brezier_2.getKeypoints()
 
@@ -247,13 +260,13 @@ class FaceFinal(object):
         self.aaa_2 = MouthInnerGroupBrezier(landmark137, parent)
         self.ccc = LeftEyeGroupBrezier(landmark137, parent)
         self.ddd = RightEyeGroupBrezier(landmark137, parent)
-        self.help1 = Line(self.ccc.p88, self.ddd.p105, 0, parent)
         self.bbb = NoseGroupBrezier(landmark137, parent, self.ccc.p88, self.ddd.p105)
         self.eee = LeftEyeBrownGroupBrezier(landmark137, parent)
         self.fff = RightEyeBrownGroupBrezier(landmark137, parent)
         self.ggg = FaceGroupBrezier(landmark137, parent)
 
     def showControl(self, flag):
+        print('showControl', flag)
         self.aaa_1.showControl(flag)
         self.aaa_2.showControl(flag)
         self.bbb.showControl(flag)
@@ -297,5 +310,5 @@ class FaceFinal(object):
     def showMouthInner(self, flag):
         self.aaa_2.show(flag)
 
-    def getLabel(self):
+    def getLabel_137(self):
         return self.ggg.getLabel()

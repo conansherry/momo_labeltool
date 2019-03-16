@@ -25,6 +25,19 @@ if __name__ == '__main__':
     ui.mouth_outter.stateChanged.connect(ui.canvas.showMouthOutter)
     ui.mouth_inner.stateChanged.connect(ui.canvas.showMouthInner)
 
+    ui.canvas.fixitem_ = ui.fixitem
+    ui.canvas.index_ = ui.index
+    ui.canvas.control_ = ui.control
+    ui.canvas.keypoint_ = ui.keypoint
+    ui.canvas.contour_ = ui.contour
+    ui.canvas.left_eyebrown_ = ui.left_eyebrown
+    ui.canvas.right_eyebrown_ = ui.right_eyebrown
+    ui.canvas.left_eye_ = ui.left_eye
+    ui.canvas.right_eye_ = ui.right_eye
+    ui.canvas.nose_ = ui.nose
+    ui.canvas.mouth_outter_ = ui.mouth_outter
+    ui.canvas.mouth_inner_ = ui.mouth_inner
+
     ui.actionload.triggered.connect(ui.file_list.loadDir)
 
     MainWindow.show()

@@ -84,7 +84,7 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
             pen = QtGui.QPen(QtGui.QColor(253, 67, 23))
             pen.setWidthF(0.2)
             painter.setPen(pen)
-            painter.setFont(QtGui.QFont('times', 2))
+            painter.setFont(QtGui.QFont('times', 3))
             painter.drawText(0, 0, str(self.name))
 
         if self.begin is not None and self.end is not None:

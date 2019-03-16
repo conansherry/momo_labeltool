@@ -125,6 +125,8 @@ class Canvas(QtWidgets.QGraphicsView):
         # open image
         if self.item is not None:
             self.tmp_scene.removeItem(self.item)
+            self.item = None
+            self.resetCheck()
         bg_pixel = QtGui.QPixmap(self.img_path)
         self.item = QtWidgets.QGraphicsPixmapItem(bg_pixel)
         self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, True)
@@ -138,6 +140,7 @@ class Canvas(QtWidgets.QGraphicsView):
             self.label = np.load(face_label_path)
         else:
             self.label = np.loadtxt(label_path, skiprows=1, delimiter=' ')
+
         self.face_label = FaceFinal(self.label, self.item)
 
     @pyqtSlot(int, name='showName')
@@ -205,6 +208,20 @@ class Canvas(QtWidgets.QGraphicsView):
     def showMouthInner(self, state):
         if self.item is not None:
             self.face_label.showMouthInner(bool(state))
+
+    def resetCheck(self):
+        self.fixitem_.setCheckState(QtCore.Qt.Unchecked)
+        self.index_.setCheckState(QtCore.Qt.Unchecked)
+        self.control_.setCheckState(QtCore.Qt.Checked)
+        self.keypoint_.setCheckState(QtCore.Qt.Checked)
+        self.contour_.setCheckState(QtCore.Qt.Checked)
+        self.left_eyebrown_.setCheckState(QtCore.Qt.Checked)
+        self.right_eyebrown_.setCheckState(QtCore.Qt.Checked)
+        self.left_eye_.setCheckState(QtCore.Qt.Checked)
+        self.right_eye_.setCheckState(QtCore.Qt.Checked)
+        self.nose_.setCheckState(QtCore.Qt.Checked)
+        self.mouth_outter_.setCheckState(QtCore.Qt.Checked)
+        self.mouth_inner_.setCheckState(QtCore.Qt.Checked)
 
     def save(self):
         print('save npy')
