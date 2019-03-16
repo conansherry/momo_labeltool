@@ -245,16 +245,12 @@ class FaceFinal(object):
     def __init__(self, landmark137, parent):
         self.aaa_1 = MouthOutterGroupBrezier(landmark137, parent)
         self.aaa_2 = MouthInnerGroupBrezier(landmark137, parent)
-
         self.ccc = LeftEyeGroupBrezier(landmark137, parent)
         self.ddd = RightEyeGroupBrezier(landmark137, parent)
-
         self.help1 = Line(self.ccc.p88, self.ddd.p105, 0, parent)
         self.bbb = NoseGroupBrezier(landmark137, parent, self.ccc.p88, self.ddd.p105)
-
         self.eee = LeftEyeBrownGroupBrezier(landmark137, parent)
         self.fff = RightEyeBrownGroupBrezier(landmark137, parent)
-
         self.ggg = FaceGroupBrezier(landmark137, parent)
 
     def showControl(self, flag):
