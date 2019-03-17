@@ -261,7 +261,7 @@ class LeftEyeBrownGroupBrezier(GroupObject):
         self.brezier_1 = BrezierCurve(self.p129, self.c130, self.c130, self.p131, 2, parent)
         self.brezier_2 = BrezierCurve(self.p131, self.c132, self.c132, self.p133, 2, parent)
         self.brezier_3 = BrezierCurve(self.p135, self.c136, self.c136, self.p129, 2, parent)
-        self.brezier_4 = BrezierCurve(self.p135, self.c134, self.c134, self.p133, 2, parent)
+        self.brezier_4 = BrezierCurve(self.p133, self.c134, self.c134, self.p135, 2, parent)
 
     def getLabel(self):
         res = np.concatenate((
