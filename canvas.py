@@ -111,12 +111,15 @@ class Canvas(QtWidgets.QGraphicsView):
             pos = event.pos()
             pos_at_item = self.item.mapFromScene(self.mapToScene(pos))
             if event.modifiers() == QtCore.Qt.AltModifier:
-                if delta.x() < 0:
+                if delta.x() < 0 or delta.y() < 0:
                     M = cv2.getRotationMatrix2D((pos_at_item.x(), pos_at_item.y()), 0, 1/1.3)
                     self.item.scale_flag *= 1 / 1.3
-                else:
+                elif delta.x() > 0 or delta.y() > 0:
                     M = cv2.getRotationMatrix2D((pos_at_item.x(), pos_at_item.y()), 0, 1.3)
                     self.item.scale_flag *= 1.3
+                else:
+                    M = cv2.getRotationMatrix2D((pos_at_item.x(), pos_at_item.y()), 0, 1)
+                    self.item.scale_flag *= 1
                 M = M.transpose()
                 qM = QtGui.QTransform(M[0, 0], M[0, 1], 0, M[1, 0], M[1, 1], 0, M[2, 0], M[2, 1], 1)
                 self.item.setTransform(qM, True)
