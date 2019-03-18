@@ -13,6 +13,7 @@ import os
 from kpt import Keypoint
 import pickle
 from group_brezier import *
+import sys
 
 class Canvas(QtWidgets.QGraphicsView):
     def __init__(self, *args, **kwargs):
@@ -93,7 +94,7 @@ class Canvas(QtWidgets.QGraphicsView):
                     self.save()
         elif event.key() == QtCore.Qt.Key_L:
             if self.item is not None:
-                tmp_img = cv2.imread(self.img_path)
+                tmp_img = cv2.imdecode(np.fromfile(self.img_path, dtype=np.uint8), -1)
                 tmp_label = self.face_label.getLabel_137().astype(np.int32)
                 for ix, pt in enumerate(tmp_label):
                     cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
@@ -130,30 +131,31 @@ class Canvas(QtWidgets.QGraphicsView):
 
     @pyqtSlot(QtWidgets.QListWidgetItem, QtWidgets.QListWidgetItem, name='openItem')
     def openItem(self, item, item_previous):
-        self.img_path = item.text()
-        label_path = os.path.splitext(self.img_path)[0] + '.pt137'
-        face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
+        if item is not None:
+            self.img_path = item.text()
+            label_path = os.path.splitext(self.img_path)[0] + '.pt137'
+            face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
 
-        # open image
-        if self.item is not None:
-            self.tmp_scene.removeItem(self.item)
-            self.item = None
-            self.resetCheck()
-        bg_pixel = QtGui.QPixmap(self.img_path)
-        self.item = QtWidgets.QGraphicsPixmapItem(bg_pixel)
-        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, True)
-        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
-        self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable, True)
-        self.item.scale_flag = 1.0
-        self.tmp_scene.addItem(self.item)
-        self.tmp_scene.setSceneRect(0, 0, bg_pixel.width(), bg_pixel.height())
+            # open image
+            if self.item is not None:
+                self.tmp_scene.removeItem(self.item)
+                self.item = None
+                self.resetCheck()
+            bg_pixel = QtGui.QPixmap(self.img_path)
+            self.item = QtWidgets.QGraphicsPixmapItem(bg_pixel)
+            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsMovable, True)
+            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
+            self.item.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable, True)
+            self.item.scale_flag = 1.0
+            self.tmp_scene.addItem(self.item)
+            self.tmp_scene.setSceneRect(0, 0, bg_pixel.width(), bg_pixel.height())
 
-        if os.path.exists(face_label_path):
-            self.label = np.load(face_label_path)
-        else:
-            self.label = np.loadtxt(label_path, skiprows=1, delimiter=' ')
+            if os.path.exists(face_label_path):
+                self.label = np.load(face_label_path)
+            else:
+                self.label = np.loadtxt(label_path, skiprows=1, delimiter=' ')
 
-        self.face_label = FaceFinal(self.label, self.item)
+            self.face_label = FaceFinal(self.label, self.item)
 
     @pyqtSlot(int, name='showName')
     def showName(self, state):
