@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_main_window(object):
     def setupUi(self, main_window):
         main_window.setObjectName("main_window")
-        main_window.resize(1035, 777)
+        main_window.resize(1037, 784)
         self.centralwidget = QtWidgets.QWidget(main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
@@ -78,7 +78,7 @@ class Ui_main_window(object):
         self.gridLayout_3.addWidget(self.widget, 0, 0, 1, 1)
         main_window.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(main_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1035, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1037, 18))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
@@ -118,7 +118,7 @@ class Ui_main_window(object):
 
     def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        main_window.setWindowTitle(_translate("main_window", "MomoLabel"))
+        main_window.setWindowTitle(_translate("main_window", "关键点标注"))
         self.fixitem.setText(_translate("main_window", "固定图片(F)"))
         self.fixitem.setShortcut(_translate("main_window", "F"))
         self.index.setText(_translate("main_window", "序号(S)"))
