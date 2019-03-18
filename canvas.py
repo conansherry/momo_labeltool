@@ -102,6 +102,16 @@ class Canvas(QtWidgets.QGraphicsView):
                 cv2.imshow('tmp_img', tmp_img)
                 cv2.waitKey()
                 cv2.destroyAllWindows()
+        elif event.key() == QtCore.Qt.Key_Equal or event.key() == QtCore.Qt.Key_Minus:
+            if event.key() == QtCore.Qt.Key_Minus:
+                M = cv2.getRotationMatrix2D((0, 0), 0, 1 / 1.3)
+                self.item.scale_flag *= 1 / 1.3
+            elif event.key() == QtCore.Qt.Key_Equal:
+                M = cv2.getRotationMatrix2D((0, 0), 0, 1.3)
+                self.item.scale_flag *= 1.3
+            M = M.transpose()
+            qM = QtGui.QTransform(M[0, 0], M[0, 1], 0, M[1, 0], M[1, 1], 0, M[2, 0], M[2, 1], 1)
+            self.item.setTransform(qM, True)
 
     def keyReleaseEvent(self, event):
         super(Canvas, self).keyReleaseEvent(event)
