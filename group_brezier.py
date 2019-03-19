@@ -9,9 +9,9 @@ from line import Line
 from kpt import Keypoint
 import numpy as np
 
-def single_pt(landmark137, index, parent):
+def single_pt(landmark137, index, parent, isEye=False):
     pen = QtGui.QPen(QtCore.Qt.cyan)
-    pen.setWidthF(0.2)
+    pen.setWidthF(0)
 
     pt = Keypoint(index, landmark137[index], -2, -2, 4, 4, parent)
     pt.setPos(landmark137[index, 0], landmark137[index, 1])
@@ -20,6 +20,9 @@ def single_pt(landmark137, index, parent):
     pt.setFlag(QtWidgets.QGraphicsItem.ItemIsFocusable)
     pt.setPen(pen)
     pt.setBrush(QtCore.Qt.darkMagenta)
+    pt.setOpacity(0.5)
+
+    pt.setIsEye(isEye)
 
     return pt
 
@@ -209,7 +212,7 @@ class LeftEyeGroupBrezier(GroupObject):
         self.brezier_1 = BrezierCurve(self.p88, self.c89, self.c95, self.p96, 8, parent)
         self.brezier_2 = BrezierCurve(self.p96, self.c97, self.c103, self.p88, 8, parent)
 
-        self.p87 = single_pt(landmark137, 87, parent)
+        self.p87 = single_pt(landmark137, 87, parent, isEye=True)
 
     def getLabel(self):
         res = np.concatenate((
@@ -220,6 +223,12 @@ class LeftEyeGroupBrezier(GroupObject):
             self.brezier_2.getKeypoints()[:-1],
         ), axis=0)
         return res
+
+    def getScale(self):
+        return self.p87.scale()
+
+    def setScale(self, value):
+        self.p87.setScale(value)
 
 class RightEyeGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
@@ -234,7 +243,7 @@ class RightEyeGroupBrezier(GroupObject):
         self.brezier_1 = BrezierCurve(self.p105, self.c106, self.c112, self.p113, 8, parent)
         self.brezier_2 = BrezierCurve(self.p113, self.c114, self.c120, self.p105, 8, parent)
 
-        self.p104 = single_pt(landmark137, 104, parent)
+        self.p104 = single_pt(landmark137, 104, parent, isEye=True)
 
     def getLabel(self):
         res = np.concatenate((
@@ -245,6 +254,12 @@ class RightEyeGroupBrezier(GroupObject):
             self.brezier_2.getKeypoints()[:-1],
         ), axis=0)
         return res
+
+    def getScale(self):
+        return self.p104.scale()
+
+    def setScale(self, value):
+        self.p104.setScale(value)
 
 class LeftEyeBrownGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
@@ -342,7 +357,7 @@ class FaceGroupBrezier(GroupObject):
         return res
 
 class FaceFinal(object):
-    def __init__(self, landmark137, parent):
+    def __init__(self, landmark137, eye_scale, parent):
         self.aaa_1 = MouthOutterGroupBrezier(landmark137, parent)
         self.aaa_2 = MouthInnerGroupBrezier(landmark137, parent)
         self.ccc = LeftEyeGroupBrezier(landmark137, parent)
@@ -351,6 +366,9 @@ class FaceFinal(object):
         self.eee = LeftEyeBrownGroupBrezier(landmark137, parent)
         self.fff = RightEyeBrownGroupBrezier(landmark137, parent)
         self.ggg = FaceGroupBrezier(landmark137, parent)
+
+        self.ccc.setScale(eye_scale[0])
+        self.ddd.setScale(eye_scale[1])
 
     def showControl(self, flag):
         self.aaa_1.showControl(flag)
@@ -408,3 +426,7 @@ class FaceFinal(object):
             self.eee.getLabel(),
         ), axis=0)
         return res
+
+    def getEyeScale(self):
+        return [self.ccc.getScale(), self.ddd.getScale()]
+

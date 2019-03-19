@@ -34,6 +34,7 @@ class Canvas(QtWidgets.QGraphicsView):
 
         self.img_path = None
         self.label = None
+        self.pickle = None
 
     def mousePressEvent(self, event):
         super(Canvas, self).mousePressEvent(event)
@@ -136,6 +137,7 @@ class Canvas(QtWidgets.QGraphicsView):
                 self.item.setTransform(qM, True)
             else:
                 super(Canvas, self).wheelEvent(event)
+            self.save()
         else:
             super(Canvas, self).wheelEvent(event)
 
@@ -145,6 +147,7 @@ class Canvas(QtWidgets.QGraphicsView):
             self.img_path = item.text()
             label_path = os.path.splitext(self.img_path)[0] + '.pt137'
             face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
+            pickle_path = os.path.splitext(self.img_path)[0] + '.pickle'
 
             # open image
             if self.item is not None:
@@ -160,12 +163,20 @@ class Canvas(QtWidgets.QGraphicsView):
             self.tmp_scene.addItem(self.item)
             self.tmp_scene.setSceneRect(0, 0, bg_pixel.width(), bg_pixel.height())
 
-            if os.path.exists(face_label_path):
+            if os.path.exists(face_label_path) and not os.path.exists(pickle_path):
                 self.label = np.load(face_label_path)
+                self.pickle = ['v0', self.label, [1, 1]]
+                with open(pickle_path, 'wb') as outfile:
+                    pickle.dump(self.pickle, outfile)
+            elif os.path.exists(pickle_path):
+                with open(pickle_path, 'rb') as outfile:
+                    self.pickle = pickle.load(outfile)
+                    self.label = self.pickle[1]
             else:
                 self.label = np.loadtxt(label_path, skiprows=1, delimiter=' ')
+                self.pickle = ['v0', self.label, [1, 1]]
 
-            self.face_label = FaceFinal(self.label, self.item)
+            self.face_label = FaceFinal(self.label, self.pickle[2], self.item)
 
     @pyqtSlot(int, name='showName')
     def showName(self, state):
@@ -248,6 +259,8 @@ class Canvas(QtWidgets.QGraphicsView):
         self.mouth_inner_.setCheckState(QtCore.Qt.Checked)
 
     def save(self):
-        print('save npy')
-        face_label_path = os.path.splitext(self.img_path)[0] + '.npy'
-        np.save(face_label_path, self.label)
+        print('save pickle')
+        pickle_path = os.path.splitext(self.img_path)[0] + '.pickle'
+        self.pickle = ['v0', self.label, self.face_label.getEyeScale()]
+        with open(pickle_path, 'wb') as outfile:
+            pickle.dump(self.pickle, outfile)

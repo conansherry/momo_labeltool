@@ -28,6 +28,8 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
         self.begin = None
         self.end = None
 
+        self.is_eye = False
+
     def setPos(self, *__args):
         super(Keypoint, self).setPos(*__args)
         if isinstance(__args[0], QtCore.QPointF):
@@ -74,12 +76,13 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
         print(self.name, self.history_pos)
 
     def paint(self, painter, option, widget=None):
-        keypoint_scale = 4 / self.parentItem().scale_flag
-        if keypoint_scale < 0.5:
-            keypoint_scale = 0.5
-        elif keypoint_scale > 2:
-            keypoint_scale = 2
-        self.setScale(keypoint_scale)
+        if not self.is_eye:
+            keypoint_scale = 4 / self.parentItem().scale_flag
+            if keypoint_scale < 0.5:
+                keypoint_scale = 0.5
+            elif keypoint_scale > 2:
+                keypoint_scale = 2
+            self.setScale(keypoint_scale)
         super(Keypoint, self).paint(painter, option, widget=widget)
 
         if self.name is not None and self.show_name:
@@ -93,10 +96,27 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
             tmp_foot = get_foot(self.pos(), self.begin.pos(), self.end.pos())
             self.setPosNoHistory(tmp_foot)
 
+    def wheelEvent(self, event):
+        delta = event.delta()
+        cur_scale = self.scale()
+        if delta < 0:
+            self.setScale(cur_scale - 0.2)
+        elif delta > 0:
+            self.setScale(cur_scale + 0.2)
+
+        super(Keypoint, self).wheelEvent(event)
+        # myshape = self.shape()
+        # for i in range(20):
+        #     len = float(i) / 20
+        #     print(self.mapToParent(myshape.pointAtPercent(len)))
+
     def showName(self, flag):
         self.show_name = flag
 
     def setAlongPath(self, begin, end):
         self.begin = begin
         self.end = end
+
+    def setIsEye(self, flag):
+        self.is_eye = flag
 
