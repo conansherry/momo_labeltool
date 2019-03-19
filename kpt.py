@@ -104,7 +104,7 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
         elif delta > 0:
             self.setScale(cur_scale + 0.2)
 
-        super(Keypoint, self).wheelEvent(event)
+        # super(Keypoint, self).wheelEvent(event)
         # myshape = self.shape()
         # for i in range(20):
         #     len = float(i) / 20

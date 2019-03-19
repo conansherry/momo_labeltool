@@ -135,10 +135,7 @@ class Canvas(QtWidgets.QGraphicsView):
                 M = M.transpose()
                 qM = QtGui.QTransform(M[0, 0], M[0, 1], 0, M[1, 0], M[1, 1], 0, M[2, 0], M[2, 1], 1)
                 self.item.setTransform(qM, True)
-            else:
-                super(Canvas, self).wheelEvent(event)
             self.save()
-        else:
             super(Canvas, self).wheelEvent(event)
 
     @pyqtSlot(QtWidgets.QListWidgetItem, QtWidgets.QListWidgetItem, name='openItem')
