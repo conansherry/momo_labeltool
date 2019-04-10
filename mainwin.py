@@ -82,6 +82,8 @@ class Ui_main_window(object):
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
+        self.menu_2 = QtWidgets.QMenu(self.menubar)
+        self.menu_2.setObjectName("menu_2")
         main_window.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
@@ -110,8 +112,12 @@ class Ui_main_window(object):
         main_window.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.dockWidget_2)
         self.actionload = QtWidgets.QAction(main_window)
         self.actionload.setObjectName("actionload")
+        self.actionConvert = QtWidgets.QAction(main_window)
+        self.actionConvert.setObjectName("actionConvert")
         self.menu.addAction(self.actionload)
+        self.menu_2.addAction(self.actionConvert)
         self.menubar.addAction(self.menu.menuAction())
+        self.menubar.addAction(self.menu_2.menuAction())
 
         self.retranslateUi(main_window)
         QtCore.QMetaObject.connectSlotsByName(main_window)
@@ -144,7 +150,9 @@ class Ui_main_window(object):
         self.mouth_inner.setText(_translate("main_window", "嘴内轮廓(P)"))
         self.mouth_inner.setShortcut(_translate("main_window", "P"))
         self.menu.setTitle(_translate("main_window", "文件"))
+        self.menu_2.setTitle(_translate("main_window", "数据处理"))
         self.actionload.setText(_translate("main_window", "载入文件夹"))
+        self.actionConvert.setText(_translate("main_window", "生成137点标注结果"))
 
 from canvas import Canvas
 from filelist import FileList

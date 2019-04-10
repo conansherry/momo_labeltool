@@ -201,7 +201,14 @@
     </property>
     <addaction name="actionload"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>数据处理</string>
+    </property>
+    <addaction name="actionConvert"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget_2">
@@ -235,6 +242,11 @@
   <action name="actionload">
    <property name="text">
     <string>载入文件夹</string>
+   </property>
+  </action>
+  <action name="actionConvert">
+   <property name="text">
+    <string>生成137点标注结果</string>
    </property>
   </action>
  </widget>

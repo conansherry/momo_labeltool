@@ -39,6 +39,7 @@ if __name__ == '__main__':
     ui.canvas.mouth_inner_ = ui.mouth_inner
 
     ui.actionload.triggered.connect(ui.file_list.loadDir)
+    ui.actionConvert.triggered.connect(ui.file_list.convertAll)
 
     MainWindow.show()
     sys.exit(app.exec_())
