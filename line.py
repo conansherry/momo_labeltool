@@ -47,11 +47,13 @@ class Line(QtWidgets.QGraphicsPathItem):
             len = float(i + 1) / self.sampleN * self.path.length()
             painter.drawPoint(self.path.pointAtPercent(self.path.percentAtLength(len)))
 
-    def getKeypoints(self):
-        res = np.zeros((self.sampleN + 1, 2), dtype=np.float32)
+    def getKeypoints(self, sampleN=None):
+        if sampleN is None:
+            sampleN = self.sampleN
+        res = np.zeros((sampleN + 1, 2), dtype=np.float32)
         res[0] = [self.p1.pos().x(), self.p1.pos().y()]
-        for i in range(self.sampleN - 1):
-            len = float(i + 1) / self.sampleN * self.path.length()
+        for i in range(sampleN - 1):
+            len = float(i + 1) / sampleN * self.path.length()
             tmp_pt = self.path.pointAtPercent(self.path.percentAtLength(len))
             res[i + 1] = [tmp_pt.x(), tmp_pt.y()]
         res[-1] = [self.p2.pos().x(), self.p2.pos().y()]

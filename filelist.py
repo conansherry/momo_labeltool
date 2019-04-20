@@ -23,15 +23,12 @@ class FileList(QtWidgets.QListWidget):
         self.clear()
         dir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open a folder', './')
         pattern = re.compile(r'((.*[jJ][pP][gG]$)|(.*[pP][nN][gG]$))')
-        self.all_data_dict = dict()
         for dirpath, dirnames, filenames in os.walk(dir):
             for filename in filenames:
                 match = pattern.match(filename)
                 if match:
                     img_file = os.path.join(dirpath, filename)
-                    label_file = os.path.join(dirpath, os.path.splitext(filename)[0] + '.pt137')
-                    if os.path.exists(img_file) and os.path.exists(label_file):
-                        self.all_data_dict[img_file] = label_file
+                    if os.path.exists(img_file):
                         self.addItem(img_file)
 
     def convertAll(self):
