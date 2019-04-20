@@ -114,8 +114,11 @@ class Ui_main_window(object):
         self.actionload.setObjectName("actionload")
         self.actionConvert = QtWidgets.QAction(main_window)
         self.actionConvert.setObjectName("actionConvert")
+        self.actionConvert1k = QtWidgets.QAction(main_window)
+        self.actionConvert1k.setObjectName("actionConvert1k")
         self.menu.addAction(self.actionload)
         self.menu_2.addAction(self.actionConvert)
+        self.menu_2.addAction(self.actionConvert1k)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
 
@@ -153,6 +156,7 @@ class Ui_main_window(object):
         self.menu_2.setTitle(_translate("main_window", "数据处理"))
         self.actionload.setText(_translate("main_window", "载入文件夹"))
         self.actionConvert.setText(_translate("main_window", "生成137点标注结果"))
+        self.actionConvert1k.setText(_translate("main_window", "生成1000点标注结果"))
 
 from canvas import Canvas
 from filelist import FileList

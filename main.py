@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
     ui.actionload.triggered.connect(ui.file_list.loadDir)
     ui.actionConvert.triggered.connect(ui.file_list.convertAll)
+    ui.actionConvert1k.triggered.connect(ui.file_list.convertAll_1k)
 
     MainWindow.show()
     sys.exit(app.exec_())
