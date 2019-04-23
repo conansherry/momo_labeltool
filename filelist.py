@@ -80,7 +80,7 @@ class FileList(QtWidgets.QListWidget):
                 tmp_label = face_label.getLabel_137().astype(np.int32)
                 for ix, pt in enumerate(tmp_label):
                     cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
-                    cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 2)
+                    cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
 
                 cv2.imwrite(save_jpg_show, tmp_img)
             except:
@@ -139,7 +139,7 @@ class FileList(QtWidgets.QListWidget):
                 tmp_label = face_label.getLabel_1k().astype(np.int32)
                 for ix, pt in enumerate(tmp_label):
                     # cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
-                    cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 2)
+                    cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
 
                 cv2.imwrite(save_jpg_show, tmp_img)
             except:
