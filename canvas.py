@@ -96,7 +96,7 @@ class Canvas(QtWidgets.QGraphicsView):
         elif event.key() == QtCore.Qt.Key_L:
             if self.item is not None:
                 tmp_img = cv2.imdecode(np.fromfile(self.img_path, dtype=np.uint8), -1)
-                tmp_label = self.face_label.getLabel_1111().astype(np.int32)
+                tmp_label = (self.face_label.getLabel_1k()).astype(np.int32)
                 for ix, pt in enumerate(tmp_label):
                     # cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
                     cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
