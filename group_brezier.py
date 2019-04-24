@@ -270,6 +270,7 @@ class LeftEyeGroupBrezier(GroupObject):
             [
                 [self.p87.pos().x(), self.p87.pos().y()],
             ],
+            self.p87.getKeypoints(),
             self.brezier_1.getKeypoints(32)[:-1],
             self.brezier_2.getKeypoints(32)[:-1],
         ), axis=0)
@@ -311,6 +312,7 @@ class RightEyeGroupBrezier(GroupObject):
             [
                 [self.p104.pos().x(), self.p104.pos().y()],
             ],
+            self.p104.getKeypoints(),
             self.brezier_1.getKeypoints(32)[:-1],
             self.brezier_2.getKeypoints(32)[:-1],
         ), axis=0)
