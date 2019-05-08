@@ -120,13 +120,22 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
     def setIsEye(self, flag):
         self.is_eye = flag
 
-    def getKeypoints(self, sampleN=34):
-        myshape = self.shape()
-        res = np.zeros((sampleN + 1, 2), dtype=np.float32)
-        tmp_pt = self.mapToParent(myshape.pointAtPercent(0))
-        res[0] = [tmp_pt.x(), tmp_pt.y()]
-        for i in range(1, sampleN):
-            len = float(i) / sampleN
-            tmp_pt = self.mapToParent(myshape.pointAtPercent(len))
+    def getKeypoints(self, sampleN=36):
+        path = QtGui.QPainterPath(self.shape())
+        path.closeSubpath()
+        res = np.zeros((sampleN, 2), dtype=np.float32)
+        for i in range(0, sampleN):
+            len = float(i) / sampleN * path.length() / 3
+            tmp_pt = self.mapToParent(path.pointAtPercent(path.percentAtLength(len)))
             res[i] = [tmp_pt.x(), tmp_pt.y()]
         return res
+
+        # myshape = self.shape()
+        # res = np.zeros((sampleN + 1, 2), dtype=np.float32)
+        # tmp_pt = self.mapToParent(myshape.pointAtPercent(0))
+        # res[0] = [tmp_pt.x(), tmp_pt.y()]
+        # for i in range(1, sampleN):
+        #     len = float(i) / sampleN * 0.5
+        #     tmp_pt = self.mapToParent(myshape.pointAtPercent(len))
+        #     res[i] = [tmp_pt.x(), tmp_pt.y()]
+        # return res

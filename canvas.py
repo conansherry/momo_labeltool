@@ -96,13 +96,37 @@ class Canvas(QtWidgets.QGraphicsView):
         elif event.key() == QtCore.Qt.Key_L:
             if self.item is not None:
                 tmp_img = cv2.imdecode(np.fromfile(self.img_path, dtype=np.uint8), -1)
-                tmp_label = (self.face_label.getLabel_1k()).astype(np.int32)
+
+                # show 1k
+                tmp_img = cv2.resize(tmp_img, (0, 0), fx=10, fy=10)
+                tmp_label = (self.face_label.getLabel_1k() * 10).astype(np.int32)
                 for ix, pt in enumerate(tmp_label):
-                    # cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
+                    cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 0), 1)
                     cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
+                cv2.imwrite('tmp_img.png', tmp_img)
                 cv2.imshow('tmp_img', tmp_img)
                 cv2.waitKey()
                 cv2.destroyAllWindows()
+
+                # # show brezier
+                # tmp_img = cv2.resize(tmp_img, (0, 0), fx=2, fy=2)
+                # key_pts, ctrl_pts = self.face_label.getBrezierLabel()
+                #
+                # tmp_label = (key_pts * 2).astype(np.int32)
+                # for ix, pt in enumerate(tmp_label):
+                #     cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_DUPLEX, 0.4, (255, 0, 0), 1)
+                #     cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
+                #
+                # # tmp_label = (ctrl_pts * 2).astype(np.int32)
+                # # for ix, pt in enumerate(tmp_label):
+                # #     cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_DUPLEX, 0.4, (255, 0, 0), 1)
+                # #     cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 0, 255), 1)
+                #
+                # cv2.imwrite('tmp_img.png', tmp_img)
+                # cv2.imshow('tmp_img', tmp_img)
+                # cv2.waitKey()
+                # cv2.destroyAllWindows()
+
         elif event.key() == QtCore.Qt.Key_Equal or event.key() == QtCore.Qt.Key_Minus:
             if event.key() == QtCore.Qt.Key_Minus:
                 M = cv2.getRotationMatrix2D((0, 0), 0, 1 / 1.3)

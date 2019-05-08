@@ -116,9 +116,12 @@ class Ui_main_window(object):
         self.actionConvert.setObjectName("actionConvert")
         self.actionConvert1k = QtWidgets.QAction(main_window)
         self.actionConvert1k.setObjectName("actionConvert1k")
+        self.actionBrezier = QtWidgets.QAction(main_window)
+        self.actionBrezier.setObjectName("actionBrezier")
         self.menu.addAction(self.actionload)
         self.menu_2.addAction(self.actionConvert)
         self.menu_2.addAction(self.actionConvert1k)
+        self.menu_2.addAction(self.actionBrezier)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
 
@@ -155,8 +158,9 @@ class Ui_main_window(object):
         self.menu.setTitle(_translate("main_window", "文件"))
         self.menu_2.setTitle(_translate("main_window", "数据处理"))
         self.actionload.setText(_translate("main_window", "载入文件夹"))
-        self.actionConvert.setText(_translate("main_window", "生成137点标注结果"))
-        self.actionConvert1k.setText(_translate("main_window", "生成1000点标注结果"))
+        self.actionConvert.setText(_translate("main_window", "生成137点"))
+        self.actionConvert1k.setText(_translate("main_window", "生成1000点"))
+        self.actionBrezier.setText(_translate("main_window", "生成贝塞尔关键点"))
 
 from canvas import Canvas
 from filelist import FileList

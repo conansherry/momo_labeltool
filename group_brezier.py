@@ -122,6 +122,33 @@ class MouthOutterGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p22.pos().x(), self.p22.pos().y()],
+                [self.p29.pos().x(), self.p29.pos().y()],
+                [self.p36.pos().x(), self.p36.pos().y()],
+                [self.p41.pos().x(), self.p41.pos().y()],
+                [self.p42.pos().x(), self.p42.pos().y()],
+                [self.p43.pos().x(), self.p43.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c23.pos().x(), self.c23.pos().y()],
+                [self.c28.pos().x(), self.c28.pos().y()],
+                [self.c30.pos().x(), self.c30.pos().y()],
+                [self.c35.pos().x(), self.c35.pos().y()],
+                [self.c37.pos().x(), self.c37.pos().y()],
+                [self.c40.pos().x(), self.c40.pos().y()],
+                [self.c44.pos().x(), self.c44.pos().y()],
+                [self.c47.pos().x(), self.c47.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
+
 class MouthInnerGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(MouthInnerGroupBrezier, self).__init__(*args, **kwargs)
@@ -160,6 +187,31 @@ class MouthInnerGroupBrezier(GroupObject):
             self.brezier_5.getKeypoints(20)[:-1],
         ), axis=0)
         return res
+
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p48.pos().x(), self.p48.pos().y()],
+                [self.p52.pos().x(), self.p52.pos().y()],
+                [self.p56.pos().x(), self.p56.pos().y()],
+                [self.p60.pos().x(), self.p60.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c49.pos().x(), self.c49.pos().y()],
+                [self.c51.pos().x(), self.c51.pos().y()],
+                [self.c53.pos().x(), self.c53.pos().y()],
+                [self.c55.pos().x(), self.c55.pos().y()],
+                [self.c57.pos().x(), self.c57.pos().y()],
+                [self.c59.pos().x(), self.c59.pos().y()],
+                [self.c61.pos().x(), self.c61.pos().y()],
+                [self.c63.pos().x(), self.c63.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
 
 class NoseGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, p88, p105, *args, **kwargs):
@@ -220,7 +272,7 @@ class NoseGroupBrezier(GroupObject):
 
     def getLabel_1k(self):
         res = np.concatenate((
-            self.brezier_1.getKeypoints(32),
+            self.brezier_1.getKeypoints(31),
             [
                 [self.p69.pos().x(), self.p69.pos().y()],
                 [self.p70.pos().x(), self.p70.pos().y()],
@@ -228,7 +280,7 @@ class NoseGroupBrezier(GroupObject):
                 [self.p72.pos().x(), self.p72.pos().y()],
                 [self.p73.pos().x(), self.p73.pos().y()],
             ],
-            self.brezier_2.getKeypoints(32),
+            self.brezier_2.getKeypoints(31),
             [
                 [self.p79.pos().x(), self.p79.pos().y()],
                 [self.p80.pos().x(), self.p80.pos().y()],
@@ -239,6 +291,37 @@ class NoseGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p64.pos().x(), self.p64.pos().y()],
+                [self.p68.pos().x(), self.p68.pos().y()],
+                [self.p69.pos().x(), self.p69.pos().y()],
+                [self.p70.pos().x(), self.p70.pos().y()],
+                [self.p71.pos().x(), self.p71.pos().y()],
+                [self.p72.pos().x(), self.p72.pos().y()],
+                [self.p73.pos().x(), self.p73.pos().y()],
+                [self.p74.pos().x(), self.p74.pos().y()],
+                [self.p78.pos().x(), self.p78.pos().y()],
+                [self.p79.pos().x(), self.p79.pos().y()],
+                [self.p80.pos().x(), self.p80.pos().y()],
+                [self.p81.pos().x(), self.p81.pos().y()],
+                [self.p82.pos().x(), self.p82.pos().y()],
+                [self.p83.pos().x(), self.p83.pos().y()],
+                [self.p86.pos().x(), self.p86.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c65.pos().x(), self.c65.pos().y()],
+                [self.c67.pos().x(), self.c67.pos().y()],
+                [self.c75.pos().x(), self.c75.pos().y()],
+                [self.c77.pos().x(), self.c77.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
 
 class LeftEyeGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
@@ -275,6 +358,26 @@ class LeftEyeGroupBrezier(GroupObject):
             self.brezier_2.getKeypoints(32)[:-1],
         ), axis=0)
         return res
+
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p87.pos().x(), self.p87.pos().y()],
+                [self.p88.pos().x(), self.p88.pos().y()],
+                [self.p96.pos().x(), self.p96.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c89.pos().x(), self.c89.pos().y()],
+                [self.c95.pos().x(), self.c95.pos().y()],
+                [self.c97.pos().x(), self.c97.pos().y()],
+                [self.c103.pos().x(), self.c103.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
 
     def getScale(self):
         return self.p87.scale()
@@ -318,6 +421,26 @@ class RightEyeGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p104.pos().x(), self.p104.pos().y()],
+                [self.p105.pos().x(), self.p105.pos().y()],
+                [self.p113.pos().x(), self.p113.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c106.pos().x(), self.c106.pos().y()],
+                [self.c112.pos().x(), self.c112.pos().y()],
+                [self.c114.pos().x(), self.c114.pos().y()],
+                [self.c120.pos().x(), self.c120.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
+
     def getScale(self):
         return self.p104.scale()
 
@@ -359,6 +482,27 @@ class LeftEyeBrownGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p129.pos().x(), self.p129.pos().y()],
+                [self.p131.pos().x(), self.p131.pos().y()],
+                [self.p133.pos().x(), self.p133.pos().y()],
+                [self.p135.pos().x(), self.p135.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c130.pos().x(), self.c130.pos().y()],
+                [self.c132.pos().x(), self.c132.pos().y()],
+                [self.c136.pos().x(), self.c136.pos().y()],
+                [self.c134.pos().x(), self.c134.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
+
 class RightEyeBrownGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
         super(RightEyeBrownGroupBrezier, self).__init__(*args, **kwargs)
@@ -393,6 +537,27 @@ class RightEyeBrownGroupBrezier(GroupObject):
             self.brezier_3.getKeypoints(18)[:-1],
         ), axis=0)
         return res
+
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p121.pos().x(), self.p121.pos().y()],
+                [self.p123.pos().x(), self.p123.pos().y()],
+                [self.p125.pos().x(), self.p125.pos().y()],
+                [self.p127.pos().x(), self.p127.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c122.pos().x(), self.c122.pos().y()],
+                [self.c124.pos().x(), self.c124.pos().y()],
+                [self.c128.pos().x(), self.c128.pos().y()],
+                [self.c126.pos().x(), self.c126.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
 
 class FaceGroupBrezier(GroupObject):
     def __init__(self, landmark137, parent, *args, **kwargs):
@@ -448,90 +613,156 @@ class FaceGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
+    def getBrezierLabel(self):
+        key_pts = np.concatenate((
+            [
+                [self.p0.pos().x(), self.p0.pos().y()],
+                [self.p4.pos().x(), self.p4.pos().y()],
+                [self.p8.pos().x(), self.p8.pos().y()],
+                [self.p11.pos().x(), self.p11.pos().y()],
+                [self.p14.pos().x(), self.p14.pos().y()],
+                [self.p18.pos().x(), self.p18.pos().y()],
+            ],
+        ), axis=0)
+
+        ctrl_pts = np.concatenate((
+            [
+                [self.c1.pos().x(), self.c1.pos().y()],
+                [self.c3.pos().x(), self.c3.pos().y()],
+                [self.c5.pos().x(), self.c5.pos().y()],
+                [self.c7.pos().x(), self.c7.pos().y()],
+                [self.c9.pos().x(), self.c9.pos().y()],
+                [self.c10.pos().x(), self.c10.pos().y()],
+                [self.c12.pos().x(), self.c12.pos().y()],
+                [self.c13.pos().x(), self.c13.pos().y()],
+                [self.c15.pos().x(), self.c15.pos().y()],
+                [self.c17.pos().x(), self.c17.pos().y()],
+                [self.c19.pos().x(), self.c19.pos().y()],
+                [self.c21.pos().x(), self.c21.pos().y()],
+            ],
+        ), axis=0)
+
+        return key_pts, ctrl_pts
+
 class FaceFinal(object):
     def __init__(self, landmark137, eye_scale, parent):
-        self.aaa_1 = MouthOutterGroupBrezier(landmark137, parent)
-        self.aaa_2 = MouthInnerGroupBrezier(landmark137, parent)
-        self.ccc = LeftEyeGroupBrezier(landmark137, parent)
-        self.ddd = RightEyeGroupBrezier(landmark137, parent)
-        self.bbb = NoseGroupBrezier(landmark137, parent, self.ccc.p88, self.ddd.p105)
-        self.eee = LeftEyeBrownGroupBrezier(landmark137, parent)
-        self.fff = RightEyeBrownGroupBrezier(landmark137, parent)
-        self.ggg = FaceGroupBrezier(landmark137, parent)
+        self.mouth_outter = MouthOutterGroupBrezier(landmark137, parent)
+        self.mouth_inner = MouthInnerGroupBrezier(landmark137, parent)
+        self.left_eye = LeftEyeGroupBrezier(landmark137, parent)
+        self.right_eye = RightEyeGroupBrezier(landmark137, parent)
+        self.nose = NoseGroupBrezier(landmark137, parent, self.left_eye.p88, self.right_eye.p105)
+        self.left_brown = LeftEyeBrownGroupBrezier(landmark137, parent)
+        self.right_brown = RightEyeBrownGroupBrezier(landmark137, parent)
+        self.face_contour = FaceGroupBrezier(landmark137, parent)
 
-        self.ccc.setScale(eye_scale[0])
-        self.ddd.setScale(eye_scale[1])
+        self.left_eye.setScale(eye_scale[0])
+        self.right_eye.setScale(eye_scale[1])
 
     def showControl(self, flag):
-        self.aaa_1.showControl(flag)
-        self.aaa_2.showControl(flag)
-        self.bbb.showControl(flag)
-        self.ccc.showControl(flag)
-        self.ddd.showControl(flag)
-        self.eee.showControl(flag)
-        self.fff.showControl(flag)
-        self.ggg.showControl(flag)
+        self.mouth_outter.showControl(flag)
+        self.mouth_inner.showControl(flag)
+        self.nose.showControl(flag)
+        self.left_eye.showControl(flag)
+        self.right_eye.showControl(flag)
+        self.left_brown.showControl(flag)
+        self.right_brown.showControl(flag)
+        self.face_contour.showControl(flag)
 
     def showKeypoint(self, flag):
-        self.aaa_1.showKeypoint(flag)
-        self.aaa_2.showKeypoint(flag)
-        self.bbb.showKeypoint(flag)
-        self.ccc.showKeypoint(flag)
-        self.ddd.showKeypoint(flag)
-        self.eee.showKeypoint(flag)
-        self.fff.showKeypoint(flag)
-        self.ggg.showKeypoint(flag)
+        self.mouth_outter.showKeypoint(flag)
+        self.mouth_inner.showKeypoint(flag)
+        self.nose.showKeypoint(flag)
+        self.left_eye.showKeypoint(flag)
+        self.right_eye.showKeypoint(flag)
+        self.left_brown.showKeypoint(flag)
+        self.right_brown.showKeypoint(flag)
+        self.face_contour.showKeypoint(flag)
 
     def showContour(self, flag):
-        self.ggg.show(flag)
+        self.face_contour.show(flag)
 
     def showLeftEyeBrown(self, flag):
-        self.eee.show(flag)
+        self.left_brown.show(flag)
 
     def showRightEyeBrown(self, flag):
-        self.fff.show(flag)
+        self.right_brown.show(flag)
 
     def showLeftEye(self, flag):
-        self.ccc.show(flag)
+        self.left_eye.show(flag)
 
     def showRightEye(self, flag):
-        self.ddd.show(flag)
+        self.right_eye.show(flag)
 
     def showNose(self, flag):
-        self.bbb.show(flag)
+        self.nose.show(flag)
 
     def showMouthOutter(self, flag):
-        self.aaa_1.show(flag)
+        self.mouth_outter.show(flag)
 
     def showMouthInner(self, flag):
-        self.aaa_2.show(flag)
+        self.mouth_inner.show(flag)
 
     def getLabel_137(self):
         res = np.concatenate((
-            self.ggg.getLabel(),
-            self.aaa_1.getLabel(),
-            self.aaa_2.getLabel(),
-            self.bbb.getLabel(),
-            self.ccc.getLabel(),
-            self.ddd.getLabel(),
-            self.fff.getLabel(),
-            self.eee.getLabel(),
+            self.face_contour.getLabel(),
+            self.mouth_outter.getLabel(),
+            self.mouth_inner.getLabel(),
+            self.nose.getLabel(),
+            self.left_eye.getLabel(),
+            self.right_eye.getLabel(),
+            self.right_brown.getLabel(),
+            self.left_brown.getLabel(),
         ), axis=0)
         return res
 
     def getLabel_1k(self):
         res = np.concatenate((
-            self.ggg.getLabel_1k(),
-            self.aaa_1.getLabel_1k(),
-            self.aaa_2.getLabel_1k(),
-            self.bbb.getLabel_1k(),
-            self.ccc.getLabel_1k(),
-            self.ddd.getLabel_1k(),
-            self.fff.getLabel_1k(),
-            self.eee.getLabel_1k(),
+            self.face_contour.getLabel_1k(),
+            self.mouth_outter.getLabel_1k(),
+            self.mouth_inner.getLabel_1k(),
+            self.nose.getLabel_1k(),
+            self.left_eye.getLabel_1k(),
+            self.right_eye.getLabel_1k(),
+            self.right_brown.getLabel_1k(),
+            self.left_brown.getLabel_1k(),
         ), axis=0)
+        assert len(res) == 1000
         return res
 
+    def getBrezierLabel(self):
+        key_pts_1, ctrl_pts_1 = self.face_contour.getBrezierLabel()
+        key_pts_2, ctrl_pts_2 = self.mouth_outter.getBrezierLabel()
+        key_pts_3, ctrl_pts_3 = self.mouth_inner.getBrezierLabel()
+        key_pts_4, ctrl_pts_4 = self.nose.getBrezierLabel()
+        key_pts_5, ctrl_pts_5 = self.left_eye.getBrezierLabel()
+        key_pts_6, ctrl_pts_6 = self.right_eye.getBrezierLabel()
+        key_pts_7, ctrl_pts_7 = self.left_brown.getBrezierLabel()
+        key_pts_8, ctrl_pts_8 = self.right_brown.getBrezierLabel()
+
+        res1 = np.concatenate((
+            key_pts_1,
+            key_pts_2,
+            key_pts_3,
+            key_pts_4,
+            key_pts_5,
+            key_pts_6,
+            key_pts_7,
+            key_pts_8,
+        ), axis=0)
+
+        res2 = np.concatenate((
+            ctrl_pts_1,
+            ctrl_pts_2,
+            ctrl_pts_3,
+            ctrl_pts_4,
+            ctrl_pts_5,
+            ctrl_pts_6,
+            ctrl_pts_7,
+            ctrl_pts_8,
+        ), axis=0)
+
+        return res1, res2
+
     def getEyeScale(self):
-        return [self.ccc.getScale(), self.ddd.getScale()]
+        return [self.left_eye.getScale(), self.right_eye.getScale()]
 

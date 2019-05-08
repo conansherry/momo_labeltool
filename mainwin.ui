@@ -207,6 +207,7 @@
     </property>
     <addaction name="actionConvert"/>
     <addaction name="actionConvert1k"/>
+    <addaction name="actionBrezier"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -247,12 +248,17 @@
   </action>
   <action name="actionConvert">
    <property name="text">
-    <string>生成137点标注结果</string>
+    <string>生成137点</string>
    </property>
   </action>
   <action name="actionConvert1k">
    <property name="text">
-    <string>生成1000点标注结果</string>
+    <string>生成1000点</string>
+   </property>
+  </action>
+  <action name="actionBrezier">
+   <property name="text">
+    <string>生成贝塞尔关键点</string>
    </property>
   </action>
  </widget>
