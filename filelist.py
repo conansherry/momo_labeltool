@@ -33,10 +33,12 @@ class FileList(QtWidgets.QListWidget):
                         self.addItem(img_file)
 
     def convertAll(self):
+        show_pts = False
         dst_dir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Save folder', './')
-        dst_show_dir = os.path.join(dst_dir, 'show')
-        if not os.path.exists(dst_show_dir):
-            os.makedirs(dst_show_dir)
+        if show_pts:
+            dst_show_dir = os.path.join(dst_dir, 'show')
+            if not os.path.exists(dst_show_dir):
+                os.makedirs(dst_show_dir)
 
         all_count = self.count()
         for i in tqdm(range(all_count)):
@@ -69,7 +71,6 @@ class FileList(QtWidgets.QListWidget):
 
                 base_name = os.path.basename(img_path)
                 save_jpg = os.path.join(dst_dir, base_name)
-                save_jpg_show = os.path.join(dst_show_dir, base_name)
                 save_pts = os.path.join(dst_dir, base_name.replace('.jpg', '.pt137'))
 
                 tmp_label = face_label.getLabel_137()
@@ -77,13 +78,15 @@ class FileList(QtWidgets.QListWidget):
                 shutil.copy2(img_path, save_jpg)
                 np.savetxt(save_pts, tmp_label, fmt='%f', delimiter=' ')
 
-                tmp_img = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), -1)
-                tmp_label = face_label.getLabel_137().astype(np.int32)
-                for ix, pt in enumerate(tmp_label):
-                    cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
-                    cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
+                if show_pts:
+                    save_jpg_show = os.path.join(dst_show_dir, base_name)
+                    tmp_img = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), -1)
+                    tmp_label = face_label.getLabel_137().astype(np.int32)
+                    for ix, pt in enumerate(tmp_label):
+                        cv2.putText(tmp_img, str(ix), (pt[0], pt[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 0, 0), 1)
+                        cv2.circle(tmp_img, (pt[0], pt[1]), 1, (0, 255, 0), 1)
 
-                cv2.imwrite(save_jpg_show, tmp_img)
+                    cv2.imwrite(save_jpg_show, tmp_img)
             except:
                 print('load {} error'.format(img_path))
                 assert False
