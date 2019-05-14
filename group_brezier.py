@@ -8,6 +8,7 @@ from brezier import BrezierCurve
 from line import Line
 from kpt import Keypoint
 import numpy as np
+import math
 
 def single_pt(landmark137, index, parent, isEye=False):
     pen = QtGui.QPen(QtCore.Qt.cyan)
@@ -166,7 +167,9 @@ class MouthInnerGroupBrezier(GroupObject):
         self.c51 = brezier_c(landmark137, 51, parent)
         self.c49 = brezier_c(landmark137, 49, parent)
         self.brezier_5 = BrezierCurve(self.p60, self.c61, self.c63, self.p48, 4, parent)
+        self.brezier_5.setLineColor([0, 0, 255])
         self.brezier_6 = BrezierCurve(self.p56, self.c57, self.c59, self.p60, 4, parent)
+        self.brezier_6.setLineColor([0, 0, 255])
         self.brezier_7 = BrezierCurve(self.p52, self.c53, self.c55, self.p56, 4, parent)
         self.brezier_8 = BrezierCurve(self.p48, self.c49, self.c51, self.p52, 4, parent)
 
@@ -334,6 +337,7 @@ class LeftEyeGroupBrezier(GroupObject):
         self.c97 = brezier_c(landmark137, 97, parent)
         self.c103 = brezier_c(landmark137, 103, parent)
         self.brezier_1 = BrezierCurve(self.p88, self.c89, self.c95, self.p96, 8, parent)
+        self.brezier_1.setLineColor([0, 0, 255])
         self.brezier_2 = BrezierCurve(self.p96, self.c97, self.c103, self.p88, 8, parent)
 
         self.p87 = single_pt(landmark137, 87, parent, isEye=True)
@@ -348,12 +352,12 @@ class LeftEyeGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
-    def getLabel_1k(self):
+    def getLabel_1k(self, rotate_degree=0.):
         res = np.concatenate((
             [
                 [self.p87.pos().x(), self.p87.pos().y()],
             ],
-            self.p87.getKeypoints(),
+            self.p87.getKeypoints(rotate_degree=rotate_degree),
             self.brezier_1.getKeypoints(32)[:-1],
             self.brezier_2.getKeypoints(32)[:-1],
         ), axis=0)
@@ -396,6 +400,7 @@ class RightEyeGroupBrezier(GroupObject):
         self.c120 = brezier_c(landmark137, 120, parent)
         self.c114 = brezier_c(landmark137, 114, parent)
         self.brezier_1 = BrezierCurve(self.p105, self.c106, self.c112, self.p113, 8, parent)
+        self.brezier_1.setLineColor([0, 0, 255])
         self.brezier_2 = BrezierCurve(self.p113, self.c114, self.c120, self.p105, 8, parent)
 
         self.p104 = single_pt(landmark137, 104, parent, isEye=True)
@@ -410,12 +415,12 @@ class RightEyeGroupBrezier(GroupObject):
         ), axis=0)
         return res
 
-    def getLabel_1k(self):
+    def getLabel_1k(self, rotate_degree=0.):
         res = np.concatenate((
             [
                 [self.p104.pos().x(), self.p104.pos().y()],
             ],
-            self.p104.getKeypoints(),
+            self.p104.getKeypoints(rotate_degree=rotate_degree),
             self.brezier_1.getKeypoints(32)[:-1],
             self.brezier_2.getKeypoints(32)[:-1],
         ), axis=0)
@@ -460,7 +465,9 @@ class LeftEyeBrownGroupBrezier(GroupObject):
         self.c136 = brezier_c(landmark137, 136, parent)
         self.c134 = brezier_c(landmark137, 134, parent)
         self.brezier_1 = BrezierCurve(self.p129, self.c130, self.c130, self.p131, 2, parent)
+        self.brezier_1.setLineColor([0, 0, 255])
         self.brezier_2 = BrezierCurve(self.p131, self.c132, self.c132, self.p133, 2, parent)
+        self.brezier_2.setLineColor([0, 0, 255])
         self.brezier_3 = BrezierCurve(self.p135, self.c136, self.c136, self.p129, 2, parent)
         self.brezier_4 = BrezierCurve(self.p133, self.c134, self.c134, self.p135, 2, parent)
 
@@ -516,7 +523,9 @@ class RightEyeBrownGroupBrezier(GroupObject):
         self.c128 = brezier_c(landmark137, 128, parent)
         self.c126 = brezier_c(landmark137, 126, parent)
         self.brezier_1 = BrezierCurve(self.p121, self.c122, self.c122, self.p123, 2, parent)
+        self.brezier_1.setLineColor([0, 0, 255])
         self.brezier_2 = BrezierCurve(self.p123, self.c124, self.c124, self.p125, 2, parent)
+        self.brezier_2.setLineColor([0, 0, 255])
         self.brezier_3 = BrezierCurve(self.p127, self.c128, self.c128, self.p121, 2, parent)
         self.brezier_4 = BrezierCurve(self.p125, self.c126, self.c126, self.p127, 2, parent)
 
@@ -716,13 +725,21 @@ class FaceFinal(object):
         return res
 
     def getLabel_1k(self):
+
+        left_eye = self.left_eye.p88.pos()
+        right_eye = self.right_eye.p105.pos()
+        diff_x = right_eye.x() - left_eye.x()
+        diff_y = right_eye.y() - left_eye.y()
+        radian = math.atan2(diff_y, diff_x)
+        rotate_degree = math.degrees(radian)
+
         res = np.concatenate((
             self.face_contour.getLabel_1k(),
             self.mouth_outter.getLabel_1k(),
             self.mouth_inner.getLabel_1k(),
             self.nose.getLabel_1k(),
-            self.left_eye.getLabel_1k(),
-            self.right_eye.getLabel_1k(),
+            self.left_eye.getLabel_1k(rotate_degree=rotate_degree),
+            self.right_eye.getLabel_1k(rotate_degree=rotate_degree),
             self.right_brown.getLabel_1k(),
             self.left_brown.getLabel_1k(),
         ), axis=0)

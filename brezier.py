@@ -24,13 +24,17 @@ class BrezierCurve(QtWidgets.QGraphicsPathItem):
         self.c1 = c1
         self.c2 = c2
         self.sampleN = sampleN
+        self.color = QtGui.QColor(0, 255, 0)
+
+    def setLineColor(self, color):
+        self.color = QtGui.QColor(color[0], color[1], color[2])
 
     def paint(self, painter, option, widget=None):
         self.path = QtGui.QPainterPath()
         self.path.moveTo(self.p1.pos())
         self.path.cubicTo(self.c1.pos(), self.c2.pos(), self.p2.pos())
         self.setPath(self.path)
-        pen = QtGui.QPen(QtGui.QColor(0, 255, 0))
+        pen = QtGui.QPen(self.color)
         pen.setWidthF(3 / self.parentItem().scale_flag)
         pen.setDashPattern([1, 2])
         self.setPen(pen)

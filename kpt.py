@@ -46,6 +46,7 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
             self.updatePos(x_, y_)
             is_change = True
         self.last_pos = [x_, y_]
+
         return is_change
 
     def setPosNoHistory(self, *__args):
@@ -120,7 +121,9 @@ class Keypoint(QtWidgets.QGraphicsEllipseItem):
     def setIsEye(self, flag):
         self.is_eye = flag
 
-    def getKeypoints(self, sampleN=36):
+    def getKeypoints(self, sampleN=36, rotate_degree=0.):
+        if self.is_eye:
+            self.setRotation(rotate_degree)
         path = QtGui.QPainterPath(self.shape())
         path.closeSubpath()
         res = np.zeros((sampleN, 2), dtype=np.float32)
